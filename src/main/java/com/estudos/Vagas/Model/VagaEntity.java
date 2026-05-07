@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "vagas")
 public class VagaEntity {
 
     @Id
