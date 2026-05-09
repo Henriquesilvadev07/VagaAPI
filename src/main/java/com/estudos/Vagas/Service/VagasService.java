@@ -1,8 +1,8 @@
 package com.estudos.Vagas.Service;
 
 
-import com.estudos.Vagas.Dto.VagaDto;
-import com.estudos.Vagas.Model.VagaEntity;
+import com.estudos.Vagas.Dto.VagasDto;
+import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Repository.VagaRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,8 @@ public class VagasService {
     }
 
 
-    public VagaEntity salvar(VagaDto dto) {
-        VagaEntity vaga = new VagaEntity();
+    public VagasModel salvar(VagasDto dto) {
+        VagasModel vaga = new VagasModel();
 
         vaga.setEmpresa(dto.empresa());
         vaga.setTitulo(dto.titulo());
@@ -31,17 +31,17 @@ public class VagasService {
         return vagaRepository.save(vaga);
     }
 
-    public VagaEntity acharPorId(Long id) {
+    public VagasModel acharPorId(Long id) {
         return vagaRepository.findById(id).orElseThrow(()
                 -> new RuntimeException("Id nåo existe no banco de dados"));
     }
 
-    public List<VagaEntity> listar(){
+    public List<VagasModel> listar(){
         return vagaRepository.findAll();
     }
 
-    public VagaEntity atualizarPorId(Long id, VagaDto dto) {
-        VagaEntity vaga = vagaRepository.findById(id).orElseThrow(()
+    public VagasModel atualizarPorId(Long id, VagasDto dto) {
+        VagasModel vaga = vagaRepository.findById(id).orElseThrow(()
                 -> new RuntimeException("Id nao encontrado no banco de dados"));
         vaga.setTitulo(dto.titulo());
         vaga.setEmpresa(dto.empresa());
