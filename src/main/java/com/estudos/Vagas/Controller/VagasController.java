@@ -6,6 +6,7 @@ import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Service.VagasService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -20,8 +21,16 @@ public class VagasController {
     }
 
     @PostMapping
-    public ResponseEntity<VagasModel> salvar(@RequestBody VagasDto dto) {
-        return ResponseEntity.ok(vagasService.salvar(dto));
+    public ResponseEntity<VagasModel> salvar(@RequestBody VagasDto dto, UriComponentsBuilder uriBuilder) {
+        var vaga = vagasService.salvar(dto);
+        //O Spring injeta automaticamente no metodo
+        //Ele ja sabe a URL base da aplicaçao (localhost ou dominio em prod)
+        var uri = uriBuilder.path("/vagas/{id}")//Define o caminho com placeholder
+                .buildAndExpand(vaga.getId())//substitui {id} pelo id real da vaga salva
+                .toUri();//conveter para objeto uri
+        return ResponseEntity.created(uri).body(vaga);
+        //created(uri) = status 201 + header Location com a uri
+        //body(vaga) = corpo da resposta com os dados da vaga
     }
 
     @GetMapping
@@ -42,6 +51,7 @@ public class VagasController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPorId(@PathVariable Long id) {
         vagasService.deletarPorId(id);
+        //noContent cria um objeto e o build constroi um objeto para o responseEntity
         return ResponseEntity.noContent().build();
     }
 }

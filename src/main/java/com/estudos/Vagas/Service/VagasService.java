@@ -55,8 +55,8 @@ public class VagasService {
     public void deletarPorId(Long id) {
         if (vagaRepository.existsById(id)){
             vagaRepository.deleteById(id);
-        }else {
-            System.out.println("Id Nao encontrado no banco de dados");
+        } else {
+            new RuntimeException("Id nao encontrado");
         }
     }
 }
