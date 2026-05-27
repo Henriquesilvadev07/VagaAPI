@@ -56,7 +56,7 @@ public class VagasService {
         if (vagaRepository.existsById(id)){
             vagaRepository.deleteById(id);
         } else {
-            new RuntimeException("Id nao encontrado");
+            throw new RuntimeException("Id nao encontrado");
         }
     }
 }

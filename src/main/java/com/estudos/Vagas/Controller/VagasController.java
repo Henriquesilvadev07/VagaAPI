@@ -4,6 +4,7 @@ package com.estudos.Vagas.Controller;
 import com.estudos.Vagas.Dto.VagasDto;
 import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Service.VagasService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,11 +22,11 @@ public class VagasController {
     }
 
     @PostMapping
-    public ResponseEntity<VagasModel> salvar(@RequestBody VagasDto dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<VagasModel> salvar(@RequestBody @Valid VagasDto dto, UriComponentsBuilder uriBuilder) {
         var vaga = vagasService.salvar(dto);
         //O Spring injeta automaticamente no metodo
         //Ele ja sabe a URL base da aplicaçao (localhost ou dominio em prod)
-        var uri = uriBuilder.path("/vagas/{id}")//Define o caminho com placeholder
+        var uri = uriBuilder.path("/vagas/{id}")//Define o caminho da request com placeholder
                 .buildAndExpand(vaga.getId())//substitui {id} pelo id real da vaga salva
                 .toUri();//conveter para objeto uri
         return ResponseEntity.created(uri).body(vaga);
