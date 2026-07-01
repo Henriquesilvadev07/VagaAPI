@@ -16,7 +16,7 @@ public class ErrorTreatment {
                 .stream()//pega a lista de FieldErrors que o spring gerou ao validar o Json com o @Valid
                 .map(DadosErroValidacao::new)//transforma cada fielderror em um DadosErroValidacao (so campo e mensagem)
                 .toList();//coleta todos os DadosErroValidacao transformados em uma lista
-        return ResponseEntity.badRequest().body(erros);
+        return ResponseEntity.badRequest().body(erros); //vai fazer o retorno da lista de erros ativos
     }
 
     @ExceptionHandler(RuntimeException.class)
