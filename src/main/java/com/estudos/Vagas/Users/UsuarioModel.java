@@ -18,12 +18,8 @@ public class UsuarioModel {
     private Long id;
 
     @Column(unique = true)
-    @NotBlank(message = "é necessário colocar o login")
     private String login;
 
-    @NotBlank(message = "é necessário colocar a senha")
     private String senha;
-
-
 
 }
