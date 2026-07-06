@@ -1,0 +1,23 @@
+package com.estudos.Vagas.Service;
+
+import com.estudos.Vagas.Repository.UsuarioRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+@NoArgsConstructor
+public class UsuarioService implements UserDetailsService {
+
+    private UsuarioRepository usuarioRepository;
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usuarioRepository.findByLogin(username);
+    }
+}
