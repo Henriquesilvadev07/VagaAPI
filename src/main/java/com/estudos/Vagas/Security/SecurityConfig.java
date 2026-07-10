@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,7 +34,6 @@ public class SecurityConfig {
                         // Bloqueia qualquer outra rota (exige autenticação)
                         .anyRequest().authenticated()
                 )
-
                 // 4. Junta tudo e controi a nossa barreira de segurança
                 .build();
     }
@@ -43,9 +43,8 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    @SuppressWarnings("deprecation")
     @Bean
     public PasswordEncoder encoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }
