@@ -1,4 +1,5 @@
 package com.estudos.Vagas.Controller;
+import com.estudos.Vagas.Dto.TokenJwtDto;
 import com.estudos.Vagas.Dto.UsuarioDto;
 import com.estudos.Vagas.Model.UsuarioModel;
 import com.estudos.Vagas.Service.TokenService;
@@ -22,15 +23,16 @@ public class UsuarioController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> efetuarLogin(@RequestBody @Valid UsuarioDto dto) {
+    public ResponseEntity efetuarLogin(@RequestBody @Valid UsuarioDto dto) {
         // Cria um "cartão de identificação" provisório com o login e a senha que o usuário digitou no Postman (dados brutos).
         // Esse objeto ainda NÃO está autenticado, ele serve apenas para carregar as credenciais digitadas.
-        var token = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
+        var Authtoken = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
         // Dispara a mágica invisível! O 'manager' (AuthenticationManager) recebe o cartão provisório e faz a validação completa:
         // a)Chama o 'loadUserByUsername' para buscar o usuário e o hash da senha no banco de dados.
         // b) Pega o 'BCryptPasswordEncoder' para comparar a senha digitada (dto.senha()) com o hash do banco.
         // Se a senha estiver certa, ele retorna o objeto 'authentication' preenchido e autenticado. Se estiver errada, joga um erro aqui mesmo.
-        var authentication = manager.authenticate(token);
-        return ResponseEntity.ok(tokenService.gerarToken((UsuarioModel) authentication.getPrincipal()));
+        var authentication = manager.authenticate(Authtoken);
+        var tokenJWT = tokenService.gerarToken((UsuarioModel) authentication.getPrincipal());
+        return ResponseEntity.ok(new TokenJwtDto(tokenJWT));
     }
 }
