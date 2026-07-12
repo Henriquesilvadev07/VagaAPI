@@ -19,7 +19,13 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<Void> efetuarLogin(@RequestBody @Valid UsuarioDto dto) {
+        // Cria um "cartão de identificação" provisório com o login e a senha que o usuário digitou no Postman (dados brutos).
+        // Esse objeto ainda NÃO está autenticado, ele serve apenas para carregar as credenciais digitadas.
         var token = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
+        // Dispara a mágica invisível! O 'manager' (AuthenticationManager) recebe o cartão provisório e faz a validação completa:
+        // a)Chama o 'loadUserByUsername' para buscar o usuário e o hash da senha no banco de dados.
+        // b) Pega o 'BCryptPasswordEncoder' para comparar a senha digitada (dto.senha()) com o hash do banco.
+        // Se a senha estiver certa, ele retorna o objeto 'authentication' preenchido e autenticado. Se estiver errada, joga um erro aqui mesmo.
         var authentication = manager.authenticate(token);
         return ResponseEntity.ok().build();
     }
