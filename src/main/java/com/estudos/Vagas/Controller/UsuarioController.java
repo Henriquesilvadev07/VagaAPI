@@ -1,5 +1,7 @@
 package com.estudos.Vagas.Controller;
 import com.estudos.Vagas.Dto.UsuarioDto;
+import com.estudos.Vagas.Model.UsuarioModel;
+import com.estudos.Vagas.Service.TokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,10 @@ public class UsuarioController {
 
     private final AuthenticationManager manager;
 
+    private final TokenService tokenService;
+
     @PostMapping("/login")
-    public ResponseEntity<Void> efetuarLogin(@RequestBody @Valid UsuarioDto dto) {
+    public ResponseEntity<String> efetuarLogin(@RequestBody @Valid UsuarioDto dto) {
         // Cria um "cartão de identificação" provisório com o login e a senha que o usuário digitou no Postman (dados brutos).
         // Esse objeto ainda NÃO está autenticado, ele serve apenas para carregar as credenciais digitadas.
         var token = new UsernamePasswordAuthenticationToken(dto.login(), dto.senha());
@@ -27,6 +31,6 @@ public class UsuarioController {
         // b) Pega o 'BCryptPasswordEncoder' para comparar a senha digitada (dto.senha()) com o hash do banco.
         // Se a senha estiver certa, ele retorna o objeto 'authentication' preenchido e autenticado. Se estiver errada, joga um erro aqui mesmo.
         var authentication = manager.authenticate(token);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(tokenService.gerarToken((UsuarioModel) authentication.getPrincipal()));
     }
 }
