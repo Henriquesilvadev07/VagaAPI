@@ -32,6 +32,8 @@ public class UsuarioController {
         // b) Pega o 'BCryptPasswordEncoder' para comparar a senha digitada (dto.senha()) com o hash do banco.
         // Se a senha estiver certa, ele retorna o objeto 'authentication' preenchido e autenticado. Se estiver errada, joga um erro aqui mesmo.
         var authentication = manager.authenticate(Authtoken);
+
+        //apos ser autenticado vai ser gerado o tokenJWT
         var tokenJWT = tokenService.gerarToken((UsuarioModel) authentication.getPrincipal());
         return ResponseEntity.ok(new TokenJwtDto(tokenJWT));
     }
