@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         // Libera totalmente a rota de /login (pública)
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/vagas").permitAll()
                         // Bloqueia qualquer outra rota (exige autenticação)
                         .anyRequest().authenticated()
                 )
