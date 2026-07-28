@@ -1,4 +1,5 @@
 package com.estudos.Vagas.Security;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,10 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity //Indicar ao spring que vamos personalizar as configuracoes de segurança
 public class SecurityConfig {
+
+    private final SecurityFilter securityFilter;
 
     @Bean //Serve para expor o retorno do metodo, sem a anotacao o spring ignora as configs
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,6 +40,8 @@ public class SecurityConfig {
                         // Bloqueia qualquer outra rota (exige autenticação)
                         .anyRequest().authenticated()
                 )
+                //determina a ordem de qual filtro devera ser chamado primeiro
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 // 4. Junta tudo e controi a nossa barreira de segurança
                 .build();
     }
