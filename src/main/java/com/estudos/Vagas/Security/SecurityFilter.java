@@ -1,11 +1,14 @@
 package com.estudos.Vagas.Security;
 
+import com.estudos.Vagas.Repository.UsuarioRepository;
 import com.estudos.Vagas.Service.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,6 +21,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
 
+    private final UsuarioRepository usuarioRepository;
+
 
     //sempre que chegar requisicao, o spring vai chamar este metodo do filter
     @Override
@@ -25,12 +30,16 @@ public class SecurityFilter extends OncePerRequestFilter {
         //metodo auxiliar pra vasculhar a requisicao e tentar encontrar o token
         var tokenJWT = recuperarToken(request);
 
+        //se tem o token na requisicao, sera pego o subject
         if (tokenJWT != null) {
             //o TokenService decodifica a String do token e vai verificar se esta valida e devolver o usuario
             var subject = tokenService.getSubject(tokenJWT);
-
-
-
+            //vai procurar pelo login passado no subject, onde esta guardado
+            var usuario = usuarioRepository.findByLogin(subject);
+            //DTO entre aspas que representa o usuario e forca autenticacao
+            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+            //nessa linha o spring vai considerar o usuario como logado
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         //filterChain é a cadeia de filtros//doFilter continuara o fluxo da requisicao
