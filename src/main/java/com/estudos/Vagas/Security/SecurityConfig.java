@@ -1,6 +1,7 @@
 package com.estudos.Vagas.Security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,7 +30,7 @@ public class SecurityConfig {
                 // 3. Abre o bloco de regras para as rotas/URLs
                 .authorizeHttpRequests(req -> req
                         // Libera totalmente a rota de /login (pública)
-                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers("/vagas").permitAll()
                         // Bloqueia qualquer outra rota (exige autenticação)
                         .anyRequest().authenticated()

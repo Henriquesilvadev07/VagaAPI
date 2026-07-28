@@ -22,6 +22,7 @@ public class TokenService {
 
     public String gerarToken(UsuarioModel usuario) {
         try {
+            //o secret deixa o token unico, impedindo que utilizem tokens falsos na internet
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
                     //dono do gerador do JWT
@@ -44,9 +45,13 @@ public class TokenService {
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             return JWT.require(algoritmo)
+                    //Checa o emisso do token, grarante que o token foi emitido pela minha API, caso seja de outro lugar, sera rejeitado
                     .withIssuer("RickDev Java")
+                    //constroi o objeto verificador com essas regras configuradas
                     .build()
+                    //vai pegar o token e verificar se bate com a secret,issuer e expiration
                     .verify(tokenJWT)
+                    //caso tenha passado de tudo com sucesso, irá pegar o token e extrais o subject/login
                     .getSubject();
         } catch (JWTVerificationException exception) {
             throw new RuntimeException("Token JWT invalido ou expirado");

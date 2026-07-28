@@ -22,11 +22,15 @@ public class SecurityFilter extends OncePerRequestFilter {
     //sempre que chegar requisicao, o spring vai chamar este metodo do filter
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        //metodo auxiliar pra vasculhar a requisicao e tentar encontrar o token
         var tokenJWT = recuperarToken(request);
 
         if (tokenJWT != null) {
+            //o TokenService decodifica a String do token e vai verificar se esta valida e devolver o usuario
             var subject = tokenService.getSubject(tokenJWT);
-            System.out.println(subject);
+
+
+
         }
 
         //filterChain é a cadeia de filtros//doFilter continuara o fluxo da requisicao
@@ -36,8 +40,10 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private String recuperarToken(HttpServletRequest request) {
+        //Vai ate a requisicao http e procura o cabechalho/header chamado Authorization
         var authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null) {
+            //vai retirar a palavra Bearer que vem junto do token e o trim retira os espacos em branco, devolve so o hash limpo
             return authorizationHeader.replace("Bearer", "").trim();
         }
 
