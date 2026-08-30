@@ -8,7 +8,8 @@ class VagasServiceTest {
 
     @Test
     void cenario01() {
-
+        //salvar
+        VagasService vagasService = new VagasService();
     }
 
 }
