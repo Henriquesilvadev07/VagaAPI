@@ -29,8 +29,7 @@ class UsuarioRepositoryTest {
     @DisplayName("Should get user successfully from DB")
     void findByLoginSucess() {
         String login = "henriquedev@email.com";
-        String senha = "1234";
-        UsuarioDto dto = new UsuarioDto(login, senha);
+        UsuarioDto dto = new UsuarioDto(login, "1234");
         //chamando o metodo de salvar
         this.createUser(dto);
 
@@ -38,6 +37,18 @@ class UsuarioRepositoryTest {
 
         //verifica se foi salvo e funcionou
         assertThat(result.isPresent()).isTrue();
+    }
+
+    @Test
+    //dando descricao ao bloco de teste
+    @DisplayName("Should not get user from DB when user not exists")
+    void findByLoginNotExists() {
+        String login = "henriquedev@email.com";
+
+        Optional<UsuarioModel> result = this.usuarioRepository.findByLogin(login);
+
+        //verifica se usuario nao existe
+        assertThat(result.isEmpty()).isTrue();
     }
 
     //metodo para criacao de usuario no banco de dados
