@@ -19,10 +19,8 @@ public class UsuarioService implements UserDetailsService {
 
         // busca no banco de dados o usuário pelo "login" (que o Spring chama de username).
         // Como a Model implementa UserDetails, pode receber o retorno direto nessa interface.
-        UserDetails user = usuarioRepository.findByLogin(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Usuário Nao encontrado");
-        }
+        UserDetails user = usuarioRepository.findByLogin(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Login nao encontrado"));
 
         // se passou pela validação (o usuário existe), devolve o objeto 'user' com todos os dados (login, senha, permissões).
         // O Spring Security vai pegar esse retorno e validar a senha (BCrypt) por baixo dos panos.

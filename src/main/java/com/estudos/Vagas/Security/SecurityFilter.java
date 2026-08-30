@@ -2,6 +2,7 @@ package com.estudos.Vagas.Security;
 
 import com.estudos.Vagas.Repository.UsuarioRepository;
 import com.estudos.Vagas.Service.TokenService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +36,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             //o TokenService decodifica a String do token e vai verificar se esta valida e devolver o usuario
             var subject = tokenService.getSubject(tokenJWT);
             //vai procurar pelo login passado no subject, onde esta guardado
-            var usuario = usuarioRepository.findByLogin(subject);
+            var usuario = usuarioRepository.findByLogin(subject)
+                    .orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
             //DTO entre aspas que representa o usuario e forca autenticacao
             var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
             //nessa linha o spring vai considerar o usuario como logado

@@ -1,5 +1,6 @@
 package com.estudos.Vagas.Model;
 
+import com.estudos.Vagas.Dto.UsuarioDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,11 @@ public class UsuarioModel implements UserDetails {
     private String login;
 
     private String senha;
+
+    public UsuarioModel(UsuarioDto dto) {
+        this.login = dto.login();
+        this.senha = dto.senha();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
