@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class VagasServiceTest {
 
     @Test
-    void cenari01() {
+    void cenario01() {
 
     }
 
