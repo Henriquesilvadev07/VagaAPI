@@ -4,6 +4,8 @@ package com.estudos.Vagas.Service;
 import com.estudos.Vagas.Dto.VagasDto;
 import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Repository.VagaRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ import java.util.List;
 public class VagasService {
 
 
-    private final VagaRepository vagaRepository;
+    private VagaRepository vagaRepository;
 
     public VagasModel salvar(VagasDto dto) {
         VagasModel vaga = new VagasModel();
