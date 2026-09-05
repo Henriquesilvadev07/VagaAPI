@@ -32,10 +32,8 @@ class UsuarioRepositoryTest {
         UsuarioDto dto = new UsuarioDto(login, "1234");
         //chamando o metodo de salvar
         this.createUser(dto);
-
         Optional<UsuarioModel> result = this.usuarioRepository.findByLogin(login);
-
-        //verifica se foi salvo e funcionou
+        //verifica se foi salvo
         assertThat(result.isPresent()).isTrue();
     }
 
@@ -44,12 +42,11 @@ class UsuarioRepositoryTest {
     @DisplayName("Should not get user from DB when user not exists")
     void findByLoginNotExists() {
         String login = "henriquedev@email.com";
-
         Optional<UsuarioModel> result = this.usuarioRepository.findByLogin(login);
-
         //verifica se usuario nao existe
         assertThat(result.isEmpty()).isTrue();
     }
+
 
     //metodo para criacao de usuario no banco de dados
     private UsuarioModel createUser(UsuarioDto dto) {
