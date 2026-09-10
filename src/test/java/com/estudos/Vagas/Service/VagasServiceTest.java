@@ -67,6 +67,31 @@ class VagasServiceTest {
     @DisplayName("Should list all vagas successfully")
     void listar(){
 
+        VagasModel vagas1 = new VagasModel();
+        vagas1.setTitulo("Estagio Java");
+        vagas1.setEmpresa("Vockan");
+        vagas1.setSalario(BigDecimal.valueOf(1800.00));
+        vagas1.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas1.setStatus(FECHADA);
+
+        VagasModel vagas2 = new VagasModel();
+        vagas2.setTitulo("Vaga Junior");
+        vagas2.setEmpresa("BASF");
+        vagas2.setSalario(BigDecimal.valueOf(2900.00));
+        vagas2.setModalidade(ModalidadeEnum.PRESENCIAL);
+        vagas2.setStatus(ABERTA);
+
+        List<VagasModel> listaMock = Arrays.asList(vagas1, vagas2);
+
+        when(vagaRepository.findAll()).thenReturn(listaMock);
+
+        List<VagasModel> vagasSalvas = vagasService.listar();
+
+        //verificar se informacoes de vagas nao estao nullas
+        assertNotNull(vagasSalvas);
+        assertEquals(2, vagasSalvas.size());
+        assertEquals("Estagio Java", vagasSalvas.get(0).getTitulo());
+        assertEquals("Vaga Junior", vagasSalvas.get(1).getTitulo());
     }
 
 
