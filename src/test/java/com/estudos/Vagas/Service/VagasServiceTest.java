@@ -81,15 +81,20 @@ class VagasServiceTest {
         vagas2.setModalidade(ModalidadeEnum.PRESENCIAL);
         vagas2.setStatus(ABERTA);
 
+        //diz que a informacao vira de array para List
         List<VagasModel> listaMock = Arrays.asList(vagas1, vagas2);
 
+        //quando o chamar o metodo de procurar. ira retornar a lista de vagas q eu inseri
         when(vagaRepository.findAll()).thenReturn(listaMock);
 
+        //chamando o metodo de listar da minha service
         List<VagasModel> vagasSalvas = vagasService.listar();
 
         //verificar se informacoes de vagas nao estao nullas
         assertNotNull(vagasSalvas);
+        //diz quantos objetos serao verificados
         assertEquals(2, vagasSalvas.size());
+        //garantem que o codigo contem informacoes e qual devera ir primeiros
         assertEquals("Estagio Java", vagasSalvas.get(0).getTitulo());
         assertEquals("Vaga Junior", vagasSalvas.get(1).getTitulo());
     }
