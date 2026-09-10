@@ -2,6 +2,7 @@ package com.estudos.Vagas.Service;
 
 import com.estudos.Vagas.Dto.VagasDto;
 import com.estudos.Vagas.Model.ModalidadeEnum;
+import com.estudos.Vagas.Model.StatusEnum;
 import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Repository.VagaRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
+import static com.estudos.Vagas.Model.StatusEnum.ABERTA;
 import static com.estudos.Vagas.Model.StatusEnum.FECHADA;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,4 +62,12 @@ class VagasServiceTest {
         assertEquals("Vockan", vagasSalvas.getEmpresa());
 
     }
+
+    @Test
+    @DisplayName("Should list all vagas successfully")
+    void listar(){
+
+    }
+
+
 }

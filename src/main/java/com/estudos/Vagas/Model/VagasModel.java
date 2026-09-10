@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.math.BigDecimal;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "vagas")
 public class VagasModel {
 
