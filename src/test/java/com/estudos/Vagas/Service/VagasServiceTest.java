@@ -53,6 +53,8 @@ class VagasServiceTest {
         vagas.setModalidade(dto.modalidade());
         vagas.setStatus(dto.status());
 
+        //estamos dizendo que quando o metodo de salvar for chamado no repository passando
+        //qualquer objeto do tipo "VagasModel", irá retornar a variavel vaga criada no teste
         when(vagaRepository.save(any(VagasModel.class))).thenReturn(vagas);
 
         VagasModel vagasSalvas = vagasService.salvar(dto);
@@ -98,6 +100,8 @@ class VagasServiceTest {
         assertEquals("Estagio Java", vagasSalvas.get(0).getTitulo());
         assertEquals("Vaga Junior", vagasSalvas.get(1).getTitulo());
     }
+
+
 
 
 }
