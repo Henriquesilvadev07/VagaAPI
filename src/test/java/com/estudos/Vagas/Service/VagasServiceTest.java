@@ -16,12 +16,13 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static com.estudos.Vagas.Model.StatusEnum.ABERTA;
 import static com.estudos.Vagas.Model.StatusEnum.FECHADA;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class VagasServiceTest {
 
@@ -101,7 +102,18 @@ class VagasServiceTest {
         assertEquals("Vaga Junior", vagasSalvas.get(1).getTitulo());
     }
 
-
+    @Test
+    @DisplayName("should delete the Vagas information successfully")
+    void deletarWithSucess() {
+        //criando um 'falso' id de banco de dados
+        Long id = 1L;
+        //verificando se o id existe e retornando true
+        when(vagaRepository.existsById(id)).thenReturn(true);
+        //metodo para deletar por id
+        vagasService.deletarPorId(id);
+        //verify chamando apenas uma vez o metodo de deletar por id
+        verify(vagaRepository, times(1)).deleteById(id);
+    }
 
 
 }
