@@ -16,12 +16,13 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static com.estudos.Vagas.Model.StatusEnum.ABERTA;
 import static com.estudos.Vagas.Model.StatusEnum.FECHADA;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class VagasServiceTest {
 
@@ -53,6 +54,8 @@ class VagasServiceTest {
         vagas.setModalidade(dto.modalidade());
         vagas.setStatus(dto.status());
 
+        //estamos dizendo que quando o metodo de salvar for chamado no repository passando
+        //qualquer objeto do tipo "VagasModel", irá retornar a variavel vaga criada no teste
         when(vagaRepository.save(any(VagasModel.class))).thenReturn(vagas);
 
         VagasModel vagasSalvas = vagasService.salvar(dto);
@@ -97,6 +100,37 @@ class VagasServiceTest {
         //garantem que o codigo contem informacoes e qual devera ir primeiros
         assertEquals("Estagio Java", vagasSalvas.get(0).getTitulo());
         assertEquals("Vaga Junior", vagasSalvas.get(1).getTitulo());
+    }
+
+    @Test
+    @DisplayName("should delete the Vagas information successfully")
+    void deletarWithSucess() {
+        //criando um 'falso' id de banco de dados
+        Long id = 1L;
+        //verificando se o id existe e retornando true
+        when(vagaRepository.existsById(id)).thenReturn(true);
+        //metodo para deletar por id
+        vagasService.deletarPorId(id);
+        //verify chamando apenas uma vez o metodo de deletar por id
+        verify(vagaRepository, times(1)).deleteById(id);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when id does no exists for deletion")
+    void deletarWithError() {
+        //Arrange
+        Long id = 99L;
+        //dizendo ao repository que a vaga NAO existe
+        when(vagaRepository.existsById(id)).thenReturn(false);
+
+        //executa a acao e confere se o erro correto foi lancado
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            vagasService.deletarPorId(id);
+        });
+        //confere se a mensagem de erro veio correta
+        assertEquals("Id nao encontrado", exception.getMessage());
+        //garantindo que nunca tentou chamar o delete ja que o ID nao existe
+        verify(vagaRepository, never()).deleteById(id);
     }
 
 
