@@ -115,5 +115,23 @@ class VagasServiceTest {
         verify(vagaRepository, times(1)).deleteById(id);
     }
 
+    @Test
+    @DisplayName("Should throw exception when id does no exists for deletion")
+    void deletarWithError() {
+        //Arrange
+        Long id = 99L;
+        //dizendo ao repository que a vaga NAO existe
+        when(vagaRepository.existsById(id)).thenReturn(false);
+
+        //executa a acao e confere se o erro correto foi lancado
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            vagasService.deletarPorId(id);
+        });
+        //confere se a mensagem de erro veio correta
+        assertEquals("Id nao encontrado", exception.getMessage());
+        //garantindo que nunca tentou chamar o delete ja que o ID nao existe
+        verify(vagaRepository, never()).deleteById(id);
+    }
+
 
 }
