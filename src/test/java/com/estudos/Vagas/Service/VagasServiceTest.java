@@ -137,7 +137,30 @@ class VagasServiceTest {
     @DisplayName("Shoud atualizar vagas successfully")
     void atualizarWithSucess(){
 
+        Long id = 1L;
+        VagasDto dto = new VagasDto("Estagio Java",
+                "Vockan",
+                BigDecimal.valueOf(1.800),
+                ModalidadeEnum.HIBRIDO,
+                FECHADA);
+        VagasModel vagas = new VagasModel();
+        vagas.setId(id);
+        vagas.setTitulo(dto.titulo());
+        vagas.setEmpresa(dto.empresa());
+        vagas.setSalario(dto.salario());
+        vagas.setModalidade(dto.modalidade());
+        vagas.setStatus(dto.status());
 
+        //dizendo que o id existe no banco de dados
+        when(vagaRepository.findById(id)).thenReturn(Optional.of(vagas));
+        //dizendo para salvar as informacoes recebidas
+        when(vagaRepository.save(any(VagasModel.class))).thenReturn(vagas);
+
+        VagasModel vagaAtualizada = vagasService.atualizarPorId(id, dto);
+        assertNotNull(vagaAtualizada);
+        assertEquals("Estagio Java", vagaAtualizada.getTitulo());
+
+        verify(vagaRepository, times(1)).save(any(VagasModel.class));
 
     }
 
