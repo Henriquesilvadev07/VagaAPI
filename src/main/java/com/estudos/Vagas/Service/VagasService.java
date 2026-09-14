@@ -48,7 +48,7 @@ public class VagasService {
         vaga.setSalario(dto.salario());
         vaga.setStatus(dto.status());
 
-        return vagaRepository.saveAndFlush(vaga);
+        return vagaRepository.save(vaga);
     }
 
     public void deletarPorId(Long id) {
