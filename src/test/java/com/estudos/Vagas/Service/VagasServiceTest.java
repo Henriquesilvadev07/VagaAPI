@@ -133,5 +133,12 @@ class VagasServiceTest {
         verify(vagaRepository, never()).deleteById(id);
     }
 
+    @Test
+    @DisplayName("Shoud atualizar vagas successfully")
+    void atualizarWithSucess(){
+
+
+
+    }
 
 }
