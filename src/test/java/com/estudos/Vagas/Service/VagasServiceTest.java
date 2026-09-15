@@ -197,6 +197,24 @@ class VagasServiceTest {
     @DisplayName("Should procurar by id successfully")
     void porcurarWithSucess() {
 
+        Long id = 1L;
+
+        VagasModel vagas = new VagasModel();
+        vagas.setId(id);
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
+
+        when(vagaRepository.findById(id)).thenReturn(Optional.of(vagas));
+
+        VagasModel vagasAchadas = vagasService.acharPorId(id);
+
+        assertNotNull(vagasAchadas);
+        assertEquals("Vockan", vagasAchadas.getEmpresa());
+
+        verify(vagaRepository, times(1)).findById(id);
     }
 
 }
