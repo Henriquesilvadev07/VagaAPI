@@ -153,7 +153,7 @@ class VagasServiceTest {
 
         //dizendo que o id existe no banco de dados
         when(vagaRepository.findById(id)).thenReturn(Optional.of(vagas));
-        //dizendo para salvar as informacoes recebidas
+        //dizendo para salvar as informacoes recebidas idependende do que for passado
         when(vagaRepository.save(any(VagasModel.class))).thenReturn(vagas);
 
         VagasModel vagaAtualizada = vagasService.atualizarPorId(id, dto);
@@ -162,6 +162,84 @@ class VagasServiceTest {
 
         verify(vagaRepository, times(1)).save(any(VagasModel.class));
 
+    }
+
+    @Test
+    @DisplayName("Shoud return exception when try to atualizar with a invalid id")
+    void atualizarWithError() {
+
+        Long id = 1L;
+        VagasDto dto = new VagasDto("Estagio Java",
+                "Vockan",
+                BigDecimal.valueOf(1.800),
+                ModalidadeEnum.HIBRIDO,
+                FECHADA);
+        VagasModel vagas = new VagasModel();
+        vagas.setId(id);
+        vagas.setTitulo(dto.titulo());
+        vagas.setEmpresa(dto.empresa());
+        vagas.setSalario(dto.salario());
+        vagas.setModalidade(dto.modalidade());
+        vagas.setStatus(dto.status());
+
+        when(vagaRepository.findById(id)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, ()->
+        {vagasService.atualizarPorId(id, dto);});
+
+        assertEquals("Id nao encontrado no banco de dados", exception.getMessage());
+
+        verify(vagaRepository, never()).save(any(VagasModel.class));
+
+    }
+
+    @Test
+    @DisplayName("Should procurar by id successfully")
+    void porcurarWithSucess() {
+
+        Long id = 1L;
+
+        VagasModel vagas = new VagasModel();
+        vagas.setId(id);
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
+
+        when(vagaRepository.findById(id)).thenReturn(Optional.of(vagas));
+
+        VagasModel vagasAchadas = vagasService.acharPorId(id);
+
+        assertNotNull(vagasAchadas);
+        assertEquals("Vockan", vagasAchadas.getEmpresa());
+
+        verify(vagaRepository, times(1)).findById(id);
+    }
+
+    @Test
+    @DisplayName("Should return exception when id is invalid")
+    void procurarWithError() {
+        Long id = 1L;
+
+        VagasModel vagas = new VagasModel();
+        vagas.setId(id);
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
+
+        when(vagaRepository.findById(id)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, ()->
+        {
+            vagasService.acharPorId(id);
+        });
+
+        assertEquals("Id nåo existe no banco de dados", exception.getMessage());
+
+        verify(vagaRepository, times(1)).findById(id);
     }
 
 }
