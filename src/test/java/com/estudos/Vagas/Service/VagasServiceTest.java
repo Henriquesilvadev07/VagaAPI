@@ -193,4 +193,10 @@ class VagasServiceTest {
 
     }
 
+    @Test
+    @DisplayName("Should procurar by id successfully")
+    void porcurarWithSucess() {
+
+    }
+
 }
