@@ -217,4 +217,29 @@ class VagasServiceTest {
         verify(vagaRepository, times(1)).findById(id);
     }
 
+    @Test
+    @DisplayName("Should return exception when id is invalid")
+    void procurarWithError() {
+        Long id = 1L;
+
+        VagasModel vagas = new VagasModel();
+        vagas.setId(id);
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
+
+        when(vagaRepository.findById(id)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, ()->
+        {
+            vagasService.acharPorId(id);
+        });
+
+        assertEquals("Id nåo existe no banco de dados", exception.getMessage());
+
+        verify(vagaRepository, times(1)).findById(id);
+    }
+
 }
