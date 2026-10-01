@@ -5,6 +5,7 @@ import com.estudos.Vagas.Dto.VagasDto;
 import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Service.VagasService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,13 +14,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/vagas")
+@RequiredArgsConstructor
 public class VagasController {
 
     private final VagasService vagasService;
 
-    public VagasController(VagasService vagasService) {
-        this.vagasService = vagasService;
-    }
 
     @PostMapping
     public ResponseEntity<VagasModel> salvar(@RequestBody @Valid VagasDto dto, UriComponentsBuilder uriBuilder) {
