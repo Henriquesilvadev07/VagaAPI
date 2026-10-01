@@ -26,6 +26,16 @@ public class VagasServiceIntegrationTest {
     @WithMockUser(username = "operador", roles = {"ROLE_USER"})
     void salvarVagaComSucesso() {
 
+        String jsonPayLoad = """
+                {
+                "titulo" : "Auxiliar de Suporte tecnico",
+                "empresa" : "ACRUX gestão",
+                "salario" : "2280.00",
+                "modalidade" : "PRESENCIAL",
+                "status" : "ABERTA"
+                }
+                """;
+
     }
 
 }
