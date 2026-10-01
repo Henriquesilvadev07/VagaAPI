@@ -11,6 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,6 +39,12 @@ public class VagasServiceIntegrationTest {
                 "status" : "ABERTA"
                 }
                 """;
+
+            mockMvc.perform(post("/vagas")
+                    .contentType(APPLICATION_JSON)
+                    .content(jsonPayLoad))
+                    .andExpect(status().isCreated());
+
 
 
 
