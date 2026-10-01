@@ -10,6 +10,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -27,7 +30,7 @@ public class VagasServiceIntegrationTest {
 
     @Test
     @DisplayName("deve cadastrar uma vaga com sucesso quando os dados forem validos")
-    @WithMockUser(username = "operador", roles = {"ROLE_USER"})
+    @WithMockUser(username = "operador", roles = {"USER"})
     void salvarVagaComSucesso() throws Exception{
 
         String jsonPayLoad = """
@@ -46,7 +49,8 @@ public class VagasServiceIntegrationTest {
                     .andExpect(status().isCreated());
 
 
-
+            boolean salvoNoBanco = vagaRepository.existsByTitulo("Auxiliar de Suporte tecnico");
+            assertTrue(salvoNoBanco, "o cliente deveria estar salvo no banco de dados");
 
     }
 

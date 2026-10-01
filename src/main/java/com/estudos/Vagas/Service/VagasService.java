@@ -16,7 +16,7 @@ import java.util.List;
 public class VagasService {
 
 
-    private VagaRepository vagaRepository;
+    private final VagaRepository vagaRepository;
 
     public VagasModel salvar(VagasDto dto) {
         VagasModel vaga = new VagasModel();
