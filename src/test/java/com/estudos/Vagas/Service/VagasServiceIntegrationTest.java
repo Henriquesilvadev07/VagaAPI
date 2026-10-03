@@ -1,5 +1,7 @@
 package com.estudos.Vagas.Service;
 
+import com.estudos.Vagas.Model.ModalidadeEnum;
+import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Repository.VagaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
+
+import static com.estudos.Vagas.Model.StatusEnum.ABERTA;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -58,6 +63,12 @@ public class VagasServiceIntegrationTest {
     @DisplayName("deve retornar sucesso ao retornar vagas salvas")
     @WithMockUser(username = "operador", roles = {"USER"})
     void listarVagasComSucesso() {
+        VagasModel vagas = new VagasModel();
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
 
     }
 
