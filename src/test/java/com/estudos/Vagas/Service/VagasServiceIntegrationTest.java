@@ -19,6 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -62,13 +65,20 @@ public class VagasServiceIntegrationTest {
     @Test
     @DisplayName("deve retornar sucesso ao retornar vagas salvas")
     @WithMockUser(username = "operador", roles = {"USER"})
-    void listarVagasComSucesso() {
+    void listarVagasComSucesso() throws Exception{
         VagasModel vagas = new VagasModel();
         vagas.setTitulo("Estagio Java");
         vagas.setEmpresa("Vockan");
         vagas.setSalario(BigDecimal.valueOf(1800.00));
         vagas.setModalidade(ModalidadeEnum.HIBRIDO);
         vagas.setStatus(ABERTA);
+        vagaRepository.save(vagas);
+
+        mockMvc.perform(get("/vagas"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].titulo").value("Estagio Java"));
 
     }
 
