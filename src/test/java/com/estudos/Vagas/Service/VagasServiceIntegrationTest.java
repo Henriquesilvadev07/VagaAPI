@@ -76,8 +76,9 @@ public class VagasServiceIntegrationTest {
 
         mockMvc.perform(get("/vagas"))
                 .andExpect(status().isOk())
+                //jsonPath é o responsavel por fazer a leitura do conteudo do JSON
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$.length()").value(1))//$ representa o objeto inteiro no JSON
                 .andExpect(jsonPath("$[0].titulo").value("Estagio Java"));
 
     }
