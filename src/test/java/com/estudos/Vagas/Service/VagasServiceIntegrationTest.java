@@ -54,4 +54,11 @@ public class VagasServiceIntegrationTest {
 
     }
 
+    @Test
+    @DisplayName("deve retornar sucesso ao retornar vagas salvas")
+    @WithMockUser(username = "operador", roles = {"USER"})
+    void listarVagasComSucesso() {
+
+    }
+
 }
