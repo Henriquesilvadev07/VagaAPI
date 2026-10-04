@@ -83,4 +83,11 @@ public class VagasServiceIntegrationTest {
 
     }
 
+    @Test
+    @DisplayName("deve retornar sucesso ao procurar vaga com um id valido")
+    @WithMockUser(username = "operador", roles = {"USER"})
+    void acharPorIdComSucesso() {
+
+    }
+
 }
