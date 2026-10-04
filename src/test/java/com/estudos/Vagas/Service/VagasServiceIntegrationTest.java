@@ -83,4 +83,24 @@ public class VagasServiceIntegrationTest {
 
     }
 
+    @Test
+    @DisplayName("deve retornar sucesso ao procurar vaga com um id valido")
+    @WithMockUser(username = "operador", roles = {"USER"})
+    void acharPorIdComSucesso() throws Exception {
+        VagasModel vagas = new VagasModel();
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
+        vagaRepository.save(vagas);
+
+        mockMvc.perform(get("/vagas/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.empresa").value("Vockan"))
+                .andExpect(jsonPath("$.titulo").value("Estagio Java"));
+
+    }
+
 }
