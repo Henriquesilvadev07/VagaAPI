@@ -86,7 +86,7 @@ public class VagasServiceIntegrationTest {
     @Test
     @DisplayName("deve retornar sucesso ao procurar vaga com um id valido")
     @WithMockUser(username = "operador", roles = {"USER"})
-    void acharPorIdComSucesso() {
+    void acharPorIdComSucesso() throws Exception {
         VagasModel vagas = new VagasModel();
         vagas.setTitulo("Estagio Java");
         vagas.setEmpresa("Vockan");
@@ -94,6 +94,8 @@ public class VagasServiceIntegrationTest {
         vagas.setModalidade(ModalidadeEnum.HIBRIDO);
         vagas.setStatus(ABERTA);
         vagaRepository.save(vagas);
+
+
 
     }
 
