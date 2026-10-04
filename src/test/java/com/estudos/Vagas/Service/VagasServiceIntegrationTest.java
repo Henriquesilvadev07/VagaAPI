@@ -95,7 +95,11 @@ public class VagasServiceIntegrationTest {
         vagas.setStatus(ABERTA);
         vagaRepository.save(vagas);
 
-
+        mockMvc.perform(get("/vagas/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.empresa").value("Vockan"))
+                .andExpect(jsonPath("$.titulo").value("Estagio Java"));
 
     }
 
