@@ -242,4 +242,10 @@ class VagasServiceTest {
         verify(vagaRepository, times(1)).findById(id);
     }
 
+    @Test
+    @DisplayName("deve retornar uma exception ao procurar uma vaga com um id invalido")
+    void acharPorIdComErro() {
+
+    }
+
 }
