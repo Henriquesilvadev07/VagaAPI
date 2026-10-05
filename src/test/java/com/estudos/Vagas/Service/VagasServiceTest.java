@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
@@ -242,10 +244,5 @@ class VagasServiceTest {
         verify(vagaRepository, times(1)).findById(id);
     }
 
-    @Test
-    @DisplayName("deve retornar uma exception ao procurar uma vaga com um id invalido")
-    void acharPorIdComErro() throws Exception{
-
-    }
 
 }
