@@ -244,7 +244,7 @@ class VagasServiceTest {
 
     @Test
     @DisplayName("deve retornar uma exception ao procurar uma vaga com um id invalido")
-    void acharPorIdComErro() {
+    void acharPorIdComErro() throws Exception{
 
     }
 
