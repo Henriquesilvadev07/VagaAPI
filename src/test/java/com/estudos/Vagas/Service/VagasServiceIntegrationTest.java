@@ -106,7 +106,10 @@ public class VagasServiceIntegrationTest {
     @Test
     @DisplayName("deve retornar uma exception ao tentar procurar por um id invalido")
     @WithMockUser(username = "operador", roles = {"USER"})
-    void acharPorIdComException() {
+    void acharPorIdComException() throws Exception{
+
+        mockMvc.perform(get("/vagas/1"))
+                .andExpect(status().isNotFound());
 
     }
 
