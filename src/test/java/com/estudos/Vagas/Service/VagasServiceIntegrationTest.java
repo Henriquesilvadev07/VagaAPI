@@ -113,4 +113,11 @@ public class VagasServiceIntegrationTest {
 
     }
 
+    @Test
+    @DisplayName("deve retornar sucesso ao atualizar vaga com um id valido")
+    @WithMockUser(username = "operador", roles = {"USER"})
+    void atualizarPorIdComSucesso() throws Exception{
+
+    }
+
 }
