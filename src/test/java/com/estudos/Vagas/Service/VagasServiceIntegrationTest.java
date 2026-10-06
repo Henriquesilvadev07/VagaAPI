@@ -15,11 +15,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 
 import static com.estudos.Vagas.Model.StatusEnum.ABERTA;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -110,6 +113,39 @@ public class VagasServiceIntegrationTest {
 
         mockMvc.perform(get("/vagas/1"))
                 .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    @DisplayName("deve retornar sucesso ao atualizar vaga com um id valido")
+    @WithMockUser(username = "operador", roles = {"USER"})
+    void atualizarPorIdComSucesso() throws Exception {
+        VagasModel vagas = new VagasModel();
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
+        vagaRepository.save(vagas);
+
+        String jsonPayLoad = """
+                {
+                "titulo" : "Auxiliar de Suporte tecnico",
+                "empresa" : "ACRUX gestão",
+                "salario" : "2280.00",
+                "modalidade" : "PRESENCIAL",
+                "status" : "ABERTA"
+                }
+                """;
+
+        mockMvc.perform(put("/vagas/" + vagas.getId())
+                .contentType(APPLICATION_JSON)
+                .content(jsonPayLoad))
+                .andExpect(status().isOk());
+
+        VagasModel vagaAtualizada = vagaRepository.findById(vagas.getId()).get();
+        assertEquals("Auxiliar de Suporte tecnico", vagaAtualizada.getTitulo());
+
 
     }
 
