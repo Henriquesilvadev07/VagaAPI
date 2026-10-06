@@ -20,6 +20,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -124,6 +126,23 @@ public class VagasServiceIntegrationTest {
         vagas.setModalidade(ModalidadeEnum.HIBRIDO);
         vagas.setStatus(ABERTA);
         vagaRepository.save(vagas);
+
+        String jsonPayLoad = """
+                {
+                "titulo" : "Auxiliar de Suporte tecnico",
+                "empresa" : "ACRUX gestão",
+                "salario" : "2280.00",
+                "modalidade" : "PRESENCIAL",
+                "status" : "ABERTA"
+                }
+                """;
+
+        mockMvc.perform(put("/vagas/" + vagas.getId())
+                .contentType(APPLICATION_JSON)
+                .content(jsonPayLoad))
+                .andExpect(status().isOk());
+
+
 
 
     }
