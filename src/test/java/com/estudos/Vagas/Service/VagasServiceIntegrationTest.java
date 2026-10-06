@@ -116,7 +116,15 @@ public class VagasServiceIntegrationTest {
     @Test
     @DisplayName("deve retornar sucesso ao atualizar vaga com um id valido")
     @WithMockUser(username = "operador", roles = {"USER"})
-    void atualizarPorIdComSucesso() throws Exception{
+    void atualizarPorIdComSucesso() throws Exception {
+        VagasModel vagas = new VagasModel();
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
+        vagaRepository.save(vagas);
+
 
     }
 
