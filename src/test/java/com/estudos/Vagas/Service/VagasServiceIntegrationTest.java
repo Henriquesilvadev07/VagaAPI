@@ -149,4 +149,11 @@ public class VagasServiceIntegrationTest {
 
     }
 
+    @Test
+    @DisplayName("deve retornar uma exception ao tentar atualizar por um id invalido")
+    @WithMockUser(username = "operador", roles = {"USER"})
+    void atualizarPorIdComException() {
+
+    }
+
 }
