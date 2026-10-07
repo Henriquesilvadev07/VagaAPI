@@ -154,6 +154,9 @@ public class VagasServiceIntegrationTest {
     @WithMockUser(username = "operador", roles = {"USER"})
     void atualizarPorIdComException() throws Exception {
 
+        mockMvc.perform(put("/vagas/1"))
+                .andExpect(status().isNotFound());
+
 
     }
 
