@@ -22,6 +22,8 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -171,6 +173,9 @@ public class VagasServiceIntegrationTest {
         vagas.setModalidade(ModalidadeEnum.HIBRIDO);
         vagas.setStatus(ABERTA);
         vagaRepository.save(vagas);
+
+        mockMvc.perform(delete("/vagas/" + vagas.getId()))
+                .andExpect(status().isNoContent());
 
     }
 
