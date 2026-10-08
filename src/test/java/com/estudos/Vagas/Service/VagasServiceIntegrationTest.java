@@ -182,7 +182,7 @@ public class VagasServiceIntegrationTest {
     @Test
     @DisplayName("deve retornar exception ao tentar deletar vaga por um id invalido")
     @WithMockUser(username = "operador", roles = {"USER"})
-    void deletarPorIdComException() {
+    void deletarPorIdComException() throws Exception{
 
     }
 
