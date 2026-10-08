@@ -160,4 +160,11 @@ public class VagasServiceIntegrationTest {
 
     }
 
+    @Test
+    @DisplayName("deve retornar sucesso ao deletar vaga por um id valido")
+    @WithMockUser(username = "operador", roles = {"USER"})
+    void deletarPorIdComSucesso() {
+
+    }
+
 }
