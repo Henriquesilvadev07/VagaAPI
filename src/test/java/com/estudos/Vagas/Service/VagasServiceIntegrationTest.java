@@ -184,6 +184,9 @@ public class VagasServiceIntegrationTest {
     @WithMockUser(username = "operador", roles = {"USER"})
     void deletarPorIdComException() throws Exception{
 
+        mockMvc.perform(delete("/vagas/99"))
+                .andExpect(status().isNotFound());
+
     }
 
 }
