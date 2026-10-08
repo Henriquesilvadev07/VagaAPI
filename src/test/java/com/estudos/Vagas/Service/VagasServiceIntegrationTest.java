@@ -22,6 +22,8 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -157,6 +159,23 @@ public class VagasServiceIntegrationTest {
         mockMvc.perform(put("/vagas/1"))
                 .andExpect(status().isNotFound());
 
+
+    }
+
+    @Test
+    @DisplayName("deve retornar sucesso ao deletar vaga por um id valido")
+    @WithMockUser(username = "operador", roles = {"USER"})
+    void deletarPorIdComSucesso() throws Exception{
+        VagasModel vagas = new VagasModel();
+        vagas.setTitulo("Estagio Java");
+        vagas.setEmpresa("Vockan");
+        vagas.setSalario(BigDecimal.valueOf(1800.00));
+        vagas.setModalidade(ModalidadeEnum.HIBRIDO);
+        vagas.setStatus(ABERTA);
+        vagaRepository.save(vagas);
+
+        mockMvc.perform(delete("/vagas/" + vagas.getId()))
+                .andExpect(status().isNoContent());
 
     }
 
