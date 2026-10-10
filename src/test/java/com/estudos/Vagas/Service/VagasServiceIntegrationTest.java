@@ -156,7 +156,19 @@ public class VagasServiceIntegrationTest {
     @WithMockUser(username = "operador", roles = {"USER"})
     void atualizarPorIdComException() throws Exception {
 
-        mockMvc.perform(put("/vagas/1"))
+        String jsonPayLoad = """
+                {
+                "titulo" : "Auxiliar de Suporte tecnico",
+                "empresa" : "ACRUX gestão",
+                "salario" : "2280.00",
+                "modalidade" : "PRESENCIAL",
+                "status" : "ABERTA"
+                }
+                """;
+
+        mockMvc.perform(put("/vagas/99")
+                        .contentType(APPLICATION_JSON)
+                        .content(jsonPayLoad))
                 .andExpect(status().isNotFound());
 
 
