@@ -3,6 +3,7 @@ package com.estudos.Vagas.Service;
 import com.estudos.Vagas.Model.ModalidadeEnum;
 import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Repository.VagaRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@Transactional
 public class VagasServiceIntegrationTest {
 
     @Autowired
@@ -100,9 +102,9 @@ public class VagasServiceIntegrationTest {
         vagas.setStatus(ABERTA);
         vagaRepository.save(vagas);
 
-        mockMvc.perform(get("/vagas/1"))
+        mockMvc.perform(get("/vagas/" + vagas.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.id").value(vagas.getId()))
                 .andExpect(jsonPath("$.empresa").value("Vockan"))
                 .andExpect(jsonPath("$.titulo").value("Estagio Java"));
 
@@ -113,7 +115,7 @@ public class VagasServiceIntegrationTest {
     @WithMockUser(username = "operador", roles = {"USER"})
     void acharPorIdComException() throws Exception{
 
-        mockMvc.perform(get("/vagas/1"))
+        mockMvc.perform(get("/vagas/99"))
                 .andExpect(status().isNotFound());
 
     }
@@ -156,7 +158,19 @@ public class VagasServiceIntegrationTest {
     @WithMockUser(username = "operador", roles = {"USER"})
     void atualizarPorIdComException() throws Exception {
 
-        mockMvc.perform(put("/vagas/1"))
+        String jsonPayLoad = """
+                {
+                "titulo" : "Auxiliar de Suporte tecnico",
+                "empresa" : "ACRUX gestão",
+                "salario" : "2280.00",
+                "modalidade" : "PRESENCIAL",
+                "status" : "ABERTA"
+                }
+                """;
+
+        mockMvc.perform(put("/vagas/99")
+                        .contentType(APPLICATION_JSON)
+                        .content(jsonPayLoad))
                 .andExpect(status().isNotFound());
 
 

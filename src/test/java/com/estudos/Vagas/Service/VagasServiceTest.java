@@ -5,13 +5,18 @@ import com.estudos.Vagas.Model.ModalidadeEnum;
 import com.estudos.Vagas.Model.StatusEnum;
 import com.estudos.Vagas.Model.VagasModel;
 import com.estudos.Vagas.Repository.VagaRepository;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.lang.reflect.Array;
@@ -26,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 class VagasServiceTest {
 
     @Mock
@@ -34,10 +41,6 @@ class VagasServiceTest {
     @InjectMocks
     private VagasService vagasService;
 
-    @BeforeEach
-    void setup(){
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     @DisplayName("Should save vagas")
