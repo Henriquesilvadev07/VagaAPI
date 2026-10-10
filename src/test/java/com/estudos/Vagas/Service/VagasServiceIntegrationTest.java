@@ -113,7 +113,7 @@ public class VagasServiceIntegrationTest {
     @WithMockUser(username = "operador", roles = {"USER"})
     void acharPorIdComException() throws Exception{
 
-        mockMvc.perform(get("/vagas/1"))
+        mockMvc.perform(get("/vagas/99"))
                 .andExpect(status().isNotFound());
 
     }
