@@ -21,6 +21,10 @@ public abstract class AbstractIntegrationTest {
         registrar.add("spring.datasource.url", postgres::getJdbcUrl);
         registrar.add("spring.datasource.username", postgres::getUsername);
         registrar.add("spring.datasource.password", postgres::getPassword);
+
+        registrar.add("spring.flyway.url", postgres::getJdbcUrl);
+        registrar.add("spring.flyway.user", postgres::getUsername);
+        registrar.add("spring.flyway.password", postgres::getPassword);
     }
 
 
