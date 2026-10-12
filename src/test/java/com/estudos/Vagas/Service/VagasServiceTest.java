@@ -1,5 +1,6 @@
 package com.estudos.Vagas.Service;
 
+import com.estudos.Vagas.AbstractIntegrationTest;
 import com.estudos.Vagas.Dto.VagasDto;
 import com.estudos.Vagas.Model.ModalidadeEnum;
 import com.estudos.Vagas.Model.StatusEnum;
@@ -33,7 +34,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-class VagasServiceTest {
+class VagasServiceTest extends AbstractIntegrationTest {
 
     @Mock
     private VagaRepository vagaRepository;
