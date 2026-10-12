@@ -29,4 +29,4 @@ jobs:
 
       # 4. Compila a aplicação e executa a sua suíte de testes de integração com Testcontainers
       - name: Compilar e Executar Testes
-        run: mvn -B test --file pom.xml
+        run: mvn -B test --file pom.xml -Dspring.profiles.active=test
