@@ -1,5 +1,6 @@
 package com.estudos.Vagas.Repository;
 
+import com.estudos.Vagas.AbstractIntegrationTest;
 import com.estudos.Vagas.Dto.UsuarioDto;
 import com.estudos.Vagas.Model.UsuarioModel;
 import jakarta.persistence.EntityManager;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
-class UsuarioRepositoryTest {
+class UsuarioRepositoryTest extends AbstractIntegrationTest {
 
     @Autowired
     UsuarioRepository usuarioRepository;
