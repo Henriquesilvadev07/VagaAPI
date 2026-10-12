@@ -23,6 +23,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # 3. Compila a aplicação e executa a tua suíte de testes de ponta a ponta
+      # 3. Garante que o serviço do Docker está rodando (necessário para o Testcontainers)
+      - name: Verificar Docker
+        run: docker --version
+
+      # 4. Compila a aplicação e executa a sua suíte de testes de integração com Testcontainers
       - name: Compilar e Executar Testes
         run: mvn -B test --file pom.xml
