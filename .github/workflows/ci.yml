@@ -10,6 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: vagas_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 1234
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
       # 1. Copia o código do teu repositório para a máquina virtual do GitHub
       - name: Checkout do código
