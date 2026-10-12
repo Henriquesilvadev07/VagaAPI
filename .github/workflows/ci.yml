@@ -10,6 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: vagas_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 1234
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
       # 1. Copia o código do teu repositório para a máquina virtual do GitHub
       - name: Checkout do código
@@ -23,6 +38,10 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # 3. Compila a aplicação e executa a tua suíte de testes de ponta a ponta
+      # 3. Garante que o serviço do Docker está rodando (necessário para o Testcontainers)
+      - name: Verificar Docker
+        run: docker --version
+
+      # 4. Compila a aplicação e executa a sua suíte de testes de integração com Testcontainers
       - name: Compilar e Executar Testes
-        run: mvn -B test --file pom.xml
+        run: mvn -B test --file pom.xml -Dspring.profiles.active=test
