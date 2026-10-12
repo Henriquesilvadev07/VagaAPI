@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-class VagasServiceTest extends AbstractIntegrationTest {
+class VagasServiceTest {
 
     @Mock
     private VagaRepository vagaRepository;
